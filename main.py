@@ -1,3 +1,5 @@
+from abstractmethod import AbstractProduct, ObjectCreationMixin
+
 class Category:
     total_categories = 0
     total_unique_products = set()
@@ -32,7 +34,7 @@ class Category:
 
 
 
-class Product:
+class Product(AbstractProduct, ObjectCreationMixin):
     def __init__(self, name, description, price, quantity):
         self.name = name
         self.description = description
@@ -62,7 +64,7 @@ class Product:
     def __str__(self):
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
-class Smartphone(Product):
+class Smartphone(AbstractProduct, ObjectCreationMixin):
     def __init__(self, name, description, price, quantity, performance, model, memory_capacity, color):
         super().__init__(name, description, price, quantity)
         self.performance = performance
@@ -71,7 +73,7 @@ class Smartphone(Product):
         self.color = color
 
 
-class LawnGrass(Product):
+class LawnGrass(AbstractProduct, ObjectCreationMixin):
     def __init__(self, name, description, price, quantity, country_of_origin, germination_period, color):
         super().__init__(name, description, price, quantity)
         self.country_of_origin = country_of_origin
@@ -122,3 +124,4 @@ category.add_product(product3)
 print("Продукты в категории:")
 for product in category.get_products():
     print(product)
+
