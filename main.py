@@ -28,6 +28,14 @@ class Category:
             products_info.append(info)
         return products_info
 
+    def average_price(self):
+        try:
+            total_price = sum(product.price for product in self.__products)
+            return total_price / len(self.__products)
+        except ZeroDivisionError:
+            print("В категории нет товаров")
+            return 0
+
     def __str__(self):
         total_products = sum(product.quantity for product in self.__products)
         return f"{self.name}, количество продуктов: {total_products} шт."
@@ -114,6 +122,14 @@ try:
     category.add_product(12345)
 except TypeError as e:
     print("Ошибка:", e)
+
+# Пытаемся добавить товар с нулевым количеством
+product1 = Product("Тетрадь", "Тетрадь в клетку", 50, 0)
+try:
+    category.add_product(product1)
+except ValueError as e:
+    print("Ошибка:", e)
+    raise  # Прерываем выполнение программы
 
 # Добавляем продукты в категорию
 category.add_product(product1)
