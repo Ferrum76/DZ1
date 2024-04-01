@@ -26,6 +26,10 @@ class Category:
             products_info.append(info)
         return products_info
 
+    def __str__(self):
+        total_products = sum(product.quantity for product in self.__products)
+        return f"{self.name}, количество продуктов: {total_products} шт."
+
 
 class Product:
     def __init__(self, name, description, price, quantity):
@@ -49,3 +53,10 @@ class Product:
         else:
             self.__price = new_price
 
+    def __add__(self, other):
+        total_price = self.price * self.quantity + other.price * other.quantity
+        total_quantity = 1  # We don't actually change the quantity when adding products
+        return Product(f"{self.name} + {other.name}", "Сложение продуктов", total_price, total_quantity)
+
+    def __str__(self):
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
