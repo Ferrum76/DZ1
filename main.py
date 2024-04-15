@@ -1,31 +1,26 @@
 class Category:
     total_categories = 0
-    total_unique_products = set()
+    all_unique_products = set()  # Global tracking of unique products
 
-    def __init__(self, name, description):
+    def __init__(self, name: str, description: str, products: list):
         self.name = name
         self.description = description
-        self.__products = []
+        self.products = list(set(products))  # Ensures unique products at initialization
         Category.total_categories += 1
+        Category.all_unique_products.update(self.products)
+
 
     def add_product(self, product):
-        self.__products.append(product)
-        Category.total_unique_products.add(product.name)
+        if product not in self.products:
+            self.products.append(product)
+            Category.all_unique_products.add(product)
 
     def remove_product(self, product):
-        self.__products.remove(product)
-        Category.total_unique_products.remove(product.name)
+        if product in self.products:
+            self.products.remove(product)
 
-    def get_products(self):
-        return self.__products
-
-    def get_products_info(self):
-        products_info = []
-        for product in self.__products:
-            info = f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт."
-            products_info.append(info)
-        return products_info
-
+    def get_total_unique_products():
+        return len(Category.all_unique_products)
 
 class Product:
     def __init__(self, name, description, price, quantity):
