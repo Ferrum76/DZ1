@@ -11,9 +11,12 @@ class Category:
 
 
     def add_product(self, product):
-        if product not in self.__products:
-            self.__products.append(product)
-            Category.all_unique_products.add(product)
+        if isinstance(product, Product):
+            if product not in self.__products:
+                self.__products.append(product)
+                Category.all_unique_products.add(product)
+        else :
+            raise AttributeError
 
     def remove_product(self, product):
         if product in self.__products:
@@ -62,7 +65,9 @@ class Product:
             self.__price = new_price
 
     def __add__(self, other):
-        return self.price*self.quantity + other.price*other.quantity
+        if isinstance(other, Product):
+            return self.price*self.quantity + other.price*other.quantity
+        return AttributeError
 
     def __str__(self):
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
