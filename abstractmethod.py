@@ -28,6 +28,10 @@ class AbstractProduct(ABC):
     def get_additional_info(self):
         pass
 
+    @abstractmethod
+    def new_product(self, *args):
+        pass
+
     def __str__(self):
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
