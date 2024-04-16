@@ -3,22 +3,22 @@ from abstractmethod import AbstractProduct, ObjectCreationMixin
 
 class Category:
     total_categories = 0
-    all_unique_products = set()  # Global tracking of unique products
+    all_unique_products = 0
 
     def __init__(self, name: str, description: str, products: list):
         self.name = name
         self.description = description
         # Ensures unique products at initialization
-        self.__products = list(set(products))
+        self.__products = products
         Category.total_categories += 1
-        Category.all_unique_products.update(self.__products)
+        Category.all_unique_products = len(set(products))
 
     def add_product(self, product):
         try:
             if isinstance(product, Product):
                 if product not in self.__products:
                     self.__products.append(product)
-                    Category.all_unique_products.add(product)
+                    Category.all_unique_products = len(set(self.__products))
             else:
                 raise ValueError
         except ValueError:
@@ -28,6 +28,7 @@ class Category:
     def remove_product(self, product):
         if product in self.__products:
             self.__products.remove(product)
+            Category.all_unique_products = len(set(self.__products))
 
     def get_products(self):
         return self.__products
@@ -58,11 +59,19 @@ class Category:
 
 
 class Product(AbstractProduct, ObjectCreationMixin):
+
     def __init__(self, name, description, price, quantity):
+        super().__init__(name, description, price, quantity)
         self.name = name
         self.description = description
         self.price = price
         self.quantity = quantity
+
+    def get_additional_info(self):
+        return "No additional info available."
+
+    def new_product(self, *args):
+        return Product(*args)
 
     @classmethod
     def create_product(cls, name, description, price, quantity):
