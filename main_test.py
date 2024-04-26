@@ -41,3 +41,9 @@ class TestCategory(unittest.TestCase):
         p1 = Product("Laptop", "High-end gaming laptop", 100, 5)
         p2 = Product("Mouse", "Wireless mouse", 10, 20)
         self.assertEqual(p1 + p2, 700)
+
+    def test_add_zero_quantity(self):
+        p = Product.new_product(self, "Laptop", "High-end gaming laptop", 100, 0)
+        c = Category(self, "Electronics", "Devices and gadgets")
+        with self.assertRaises(ValueError):
+            c.add_product(p)

@@ -14,16 +14,15 @@ class Category:
         Category.all_unique_products = len(set(products))
 
     def add_product(self, product):
-        try:
-            if isinstance(product, Product):
-                if product not in self.__products:
-                    self.__products.append(product)
-                    Category.all_unique_products = len(set(self.__products))
-            else:
-                raise ValueError
-        except ValueError:
-            print("Нельзя добавить товар с нулевым количеством!")
-            return
+        if product.quantity <= 0:
+            print("Товар с нулевым количеством не может быть добавлен")
+            raise ValueError
+        if isinstance(product, Product):
+            if product not in self.__products:
+                self.__products.append(product)
+                Category.all_unique_products = len(set(self.__products))
+        else:
+            raise ValueError
 
     def remove_product(self, product):
         if product in self.__products:
@@ -91,7 +90,7 @@ class Product(AbstractProduct, ObjectCreationMixin):
     def __add__(self, other):
         if isinstance(other, Product):
             return self.price*self.quantity + other.price*other.quantity
-        return ValueError
+        raise ValueError
 
     def __str__(self):
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
