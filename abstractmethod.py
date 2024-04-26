@@ -1,6 +1,9 @@
 from abc import ABC, abstractmethod
 
 class ObjectCreationMixin:
+    def __init__(self):
+        print(repr(self))
+        
     def __repr__(self):
         attributes = ', '.join(f"{attr}={getattr(self, attr)}" for attr in self.__dict__)
         return f"{self.__class__.__name__}({attributes})"
@@ -12,6 +15,10 @@ class AbstractProduct(ABC):
         self.description = description
         self.price = price
         self.quantity = quantity
+
+    @abstractmethod
+    def new_product(self, *args):
+        pass
 
     @abstractmethod
     def __str__(self):
